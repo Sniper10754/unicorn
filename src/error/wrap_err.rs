@@ -14,7 +14,7 @@ pub trait WrapErr<T> {
     fn wrap_err(self, note: Option<&str>) -> T;
 }
 
-impl<T: Clone> WrapErr<T> for Option<T> {
+impl<T> WrapErr<T> for Option<T> {
     fn wrap_err(self, note: Option<&str>) -> T {
         match self {
             Some(x) => x,
@@ -36,7 +36,7 @@ impl<T: Clone> WrapErr<T> for Option<T> {
     }
 }
 
-impl<T: Clone, E: std::error::Error> WrapErr<T> for Result<T, E> {
+impl<T, E: std::error::Error> WrapErr<T> for Result<T, E> {
     fn wrap_err(self, note: Option<&str>) -> T {
         match self {
             Ok(x) => x,

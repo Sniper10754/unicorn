@@ -9,7 +9,7 @@ use yansi::Color;
 
 pub fn unicorn<M>(message: M) -> UnicornError
 where
-    M: ToString,
+    M: Display,
 {
     UnicornError {
         description: message.to_string(),
