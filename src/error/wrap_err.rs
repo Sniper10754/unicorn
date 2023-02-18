@@ -2,7 +2,7 @@ use yansi::Color;
 
 use std::process::exit;
 
-use super::{unicorn, report_err};
+use super::{report_err, unicorn};
 
 macro_rules! here {
     () => {
