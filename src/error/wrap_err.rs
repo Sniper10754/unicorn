@@ -2,7 +2,9 @@ use yansi::Color;
 
 use std::process::exit;
 
-use super::{report_err, unicorn};
+use crate::report::Report;
+
+use super::unicorn;
 
 macro_rules! here {
     () => {
@@ -11,6 +13,9 @@ macro_rules! here {
 }
 
 pub trait WrapErr<T> {
+    /// Inspired version of `unwrap` method that
+    /// exits in case of `Err` or `None`,
+    /// giving a pretty error message.
     fn wrap_err(self, note: Option<&str>) -> T;
 }
 
@@ -29,7 +34,7 @@ impl<T> WrapErr<T> for Option<T> {
                     None => (),
                 }
 
-                report_err(unicorn(format!("{err_message} at {}", here!())));
+                Report::report_err(unicorn(format!("{err_message} at {}", here!())));
                 exit(1);
             }
         }
@@ -50,7 +55,7 @@ impl<T, E: std::error::Error> WrapErr<T> for Result<T, E> {
                     None => (),
                 }
 
-                report_err(unicorn(err_message));
+                Report::report_err(unicorn(err_message));
                 exit(1);
             }
         }

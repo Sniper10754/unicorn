@@ -3,7 +3,7 @@ use std::{error::Error, fmt::Display};
 mod wrap_err;
 pub use wrap_err::*;
 
-use crate::report::{self, report_string};
+use crate::report::Report;
 
 use yansi::Color;
 
@@ -29,23 +29,19 @@ impl Display for UnicornError {
 
 impl Error for UnicornError {}
 
-pub fn report_err_string<E>(err: &E) -> String
-where
-    E: std::error::Error,
-{
-    report_string(Color::Red, "error", &format!("{}", err))
-}
+impl Report {
+    pub fn report_err_string<E: std::error::Error>(err: &E) -> String {
+        Report::report_string(Color::Red, "error", &format!("{}", err))
+    }
 
-pub fn report_err<E>(err: E)
-where
-    E: std::error::Error,
-{
-    let message = report_err_string(&err);
+    pub fn report_err<E: std::error::Error>(err: E) {
+        println!("{}", Report::report_err_string(&err));
 
-    println!("{}", message);
-
-    match err.source() {
-        Some(err_source) => report::report(Color::Magenta, "caused by", &format!("{}", err_source)),
-        None => (),
+        match err.source() {
+            Some(err_source) => {
+                Report::report(Color::Magenta, "caused by", &format!("{}", err_source))
+            }
+            None => (),
+        }
     }
 }
