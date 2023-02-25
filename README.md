@@ -2,7 +2,8 @@
 blazing fast error reporting library
 
 # Use
-## Add to cargo.toml
+## Add unicorn to cargo.toml
+
 ```toml
 [dependencies]
 unicorn = { git = "https://github.com/Sniper10754/unicorn.git" }
